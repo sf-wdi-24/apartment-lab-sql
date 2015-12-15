@@ -24,6 +24,6 @@
 23. ` SELECT * FROM owners INNER JOIN properties ON owners.id = properties.owner_id; `
 24. ` SELECT * FROM owners CROSS JOIN properties; `
 
-Stretch Challenges
+##Stretch Challenges
 1. ` ALTER TABLE properties RENAME COLUMN name TO property_name; `
 2. ` SELECT COUNT(id) FROM PROPERTIES WHERE owner_id BETWEEN 1 AND 3; `
