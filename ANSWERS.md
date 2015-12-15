@@ -171,23 +171,96 @@
 
 20. Show the names of the first three owners in your owners table.
 
-apartmentlab=# SELECT * FROM owners LIMIT 3;
- id |  name  | age 
-----+--------+-----
-  1 | Donald |  56
-  2 | Elaine |  24
-  3 | Emma   |  36
-(3 rows)
+	apartmentlab=# SELECT * FROM owners LIMIT 3;
+	 id |  name  | age 
+	----+--------+-----
+	  1 | Donald |  56
+	  2 | Elaine |  24
+	  3 | Emma   |  36
+	(3 rows)
 
 
 21. Use a `FULL OUTER JOIN` to show all of the information from the owners table and the properties table.
+
+	apartmentlab=# SELECT * FROM owners
+	apartmentlab-# FULL OUTER JOIN properties
+	apartmentlab-# ON owners.id = properties.owner_id;
+	 id |  name  | age | id |    name     | num_units | owner_id 
+	----+--------+-----+----+-------------+-----------+----------
+	    |        |     |  1 | Archstone   |        20 |         
+	    |        |     |  2 | Cold Spring |        75 |         
+	    |        |     |  3 | Longmeadow  |        50 |         
+	  2 | Elaine |  24 |    |             |           |         
+	  4 | John   |  33 |    |             |           |         
+	  1 | Donald |  56 |    |             |           |         
+	  3 | Emma   |  36 |    |             |           |         
+	(7 rows)
+
+
 22. Update at least one of your properties to belong to the owner with id 1.
+
+	apartmentlab=# UPDATE properties SET  owner_id = 1 WHERE name = 'Cold Spring';
+	UPDATE 1
+	apartmentlab=# SELECT * FROM properties
+	apartmentlab-# ;
+	 id |    name     | num_units | owner_id 
+	----+-------------+-----------+----------
+	  1 | Archstone   |        20 |         
+	  3 | Longmeadow  |        50 |         
+	  2 | Cold Spring |        75 |        1
+	(3 rows)
+
 23. Use an `INNER JOIN` to show all of the owners with associated properties.
+
+	apartmentlab=# SELECT * FROM owners
+	apartmentlab=# INNER JOIN properties
+	apartmentlab-# ON owners.id = properties.owner_id;	
+	 id |  name  | age | id |    name     | num_units | owner_id 
+----+--------+-----+----+-------------+-----------+----------
+  1 | Donald |  56 |  2 | Cold Spring |        75 |        1
+(1 row)
+
+
 24. Use a `CROSS JOIN` to show all possible combinations of owners and properties.
+
+	apartmentlab=# SELECT * from  properties cross join owners;
+	 id |    name     | num_units | owner_id | id |  name  | age 
+	----+-------------+-----------+----------+----+--------+-----
+	  1 | Archstone   |        20 |          |  1 | Donald |  56
+	  3 | Longmeadow  |        50 |          |  1 | Donald |  56
+	  2 | Cold Spring |        75 |        1 |  1 | Donald |  56
+	  1 | Archstone   |        20 |          |  2 | Elaine |  24
+	  3 | Longmeadow  |        50 |          |  2 | Elaine |  24
+	  2 | Cold Spring |        75 |        1 |  2 | Elaine |  24
+	  1 | Archstone   |        20 |          |  3 | Emma   |  36
+	  3 | Longmeadow  |        50 |          |  3 | Emma   |  36
+	  2 | Cold Spring |        75 |        1 |  3 | Emma   |  36
+	  1 | Archstone   |        20 |          |  4 | John   |  33
+	  3 | Longmeadow  |        50 |          |  4 | John   |  33
+	  2 | Cold Spring |        75 |        1 |  4 | John   |  33
+	(12 rows)
 
 ## Stretch Challenges
 
-**Note:** You may need to research documentation for these challenges.
-
 1. In the `properties` table, change the name of the column `name` to `property_name`.
+
+	apartmentlab=# ALTER TABLE properties RENAME COLUMN name TO property_name;
+	ALTER TABLE
+
 2. Count the total number of properties where the `owner_id` is between 1 and 3.
+	
+	apartmentlab=# SELECT * FROM properties;
+	 id | property_name | num_units | owner_id 
+	----+---------------+-----------+----------
+	  2 | Cold Spring   |        75 |        1
+	  1 | Archstone     |        20 |        4
+	  3 | Longmeadow    |        50 |        2
+	(3 rows)
+
+	apartmentlab=# SELECT COUNT(owner_id) FROM properties WHERE owner_id BETWEEN 1 and 3;
+	 count 
+	-------
+	     2
+	(1 row)
+
+
