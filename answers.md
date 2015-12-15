@@ -83,7 +83,7 @@
 ### Stretch
 1. ALTER TABLE properties RENAME COLUMN name TO property_name;
 
-2.
+2. SELECT COUNT(*) FROM properties WHERE owner_id BETWEEN 1 AND 3;
 
 
 
